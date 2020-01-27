@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ██████╗ ██╗████████╗███████╗ █████╗  ██████╗████████╗ ██████╗ ██████╗ ██╗   ██╗
+  ~ ██╔══██╗██║╚══██╔══╝██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗╚██╗ ██╔╝
+  ~ ██████╔╝██║   ██║   █████╗  ███████║██║        ██║   ██║   ██║██████╔╝ ╚████╔╝
+  ~ ██╔══██╗██║   ██║   ██╔══╝  ██╔══██║██║        ██║   ██║   ██║██╔══██╗  ╚██╔╝
+  ~ ██████╔╝██║   ██║   ██║     ██║  ██║╚██████╗   ██║   ╚██████╔╝██║  ██║   ██║
+  ~ ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+  ~
+  ~ Copyright (c) 2019 Bitfactory GmbH. All rights reserved.
+  ~ https://www.bitfactory.io
+  ~
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are not permitted.
+  ~
+  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  ~ FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  ~ COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  ~ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES INCLUDING,
+  ~ BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  ~ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  ~ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  ~ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+  ~ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  ~ POSSIBILITY OF SUCH DAMAGE.
+  -->
+
+
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/invisibleTextInput"
+			style="@style/PinLayoutStyle"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			android:imeOptions="actionDone"
+			android:maxLines="1"
+			android:textSelectHandle="@null"
+			app:layout_constraintBottom_toBottomOf="@+id/pinLinearLayout"
+			app:layout_constraintEnd_toEndOf="@+id/pinLinearLayout"
+			app:layout_constraintStart_toStartOf="@+id/pinLinearLayout"
+			app:layout_constraintTop_toTopOf="@+id/pinLinearLayout">
+		</com.google.android.material.textfield.TextInputEditText>
+
+
+		<LinearLayout
+			android:id="@+id/pinLinearLayout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal|center_vertical"
+			android:orientation="horizontal"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"  />
+
+	<View
+		android:id="@+id/bottomBar"
+		android:layout_width="0dp"
+		android:layout_height="2dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
