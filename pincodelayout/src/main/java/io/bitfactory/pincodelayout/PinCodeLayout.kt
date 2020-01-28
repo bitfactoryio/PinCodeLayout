@@ -37,11 +37,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.ActionMode
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -53,18 +49,26 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.android.synthetic.main.pin_code_layout.view.*
+import kotlin.math.absoluteValue
 
 class PinCodeLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    companion object {
+        val TYPE_CAP_LETTERS_AND_DIGITS = charArrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+        val TYPE_DIGITS = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    }
+
     private var pinLength = 0
+    private var pinType = 0
     private val defaultPinLength = 6
     private val alphaPropertyName = "alpha"
     private var animationDuration: Long = 0
     private val defaultAnimationDuration = 500
     private var alphaValueStart = 0f
     private var alphaValueEnd = 1f
+    private val pinTypeDefault = 1
 
     private var pinTextColor = 0
 
@@ -142,51 +146,65 @@ class PinCodeLayout @JvmOverloads constructor(
 
     private val textWatcher = object : TextWatcher {
         var textLengthBefore = 0
+        var textBeforeChange = ""
+        var textResetManually = false
 
         override fun afterTextChanged(s: Editable?) {
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            if (textResetManually) {
+                return
+            }
             textLengthBefore = s?.length ?: 0
+            textBeforeChange = s.toString()
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
             s?.let {
-
                 if (before == 1
                     && count == 0
                 ) {
-
                     clearPin(it.lastIndex + 1)
-
                     pinInterface?.onPinCleared()
                     return
                 }
-                if (it.length == pinLength) {
-                    //From deeplink
+
+                if (!(it.isBlank() || isValidInput(it.last()))
+                    || before == count
+                ) {
+                    return
+                }
+
+                // If input is bigger than 1 character
+                if (textLengthBefore.minus(it.length).absoluteValue > 1) {
+                    // If no input is inside, fill first available chars (e.g. after rotation recreation)
                     if (textLengthBefore == 0) {
-                        it.forEachIndexed { i, c ->
-
+                        val endIndex = if (it.length > pinLength) pinLength else it.length
+                        it.substring(0, endIndex).forEachIndexed { i, c ->
                             fillPin(i, c.toString())
-
                         }
                     } else {
-
-                        fillPin(it.lastIndex, it.last().toString())
+                        // If already input is inside, dont allow set more than one char. Reset textview to old state
+                        textResetManually = true
+                        invisibleTextInput.setText(textBeforeChange)
+                        invisibleTextInput.setSelection(textLengthBefore)
+                        return
                     }
+                    return
+                }
 
+                if (it.length == pinLength) {
+                    fillPin(it.lastIndex, it.last().toString())
                     closeKeyboard()
                     pinInterface?.onPinEntered(it.toString())
                     return
                 }
 
                 if (textLengthBefore < it.length) {
-
                     fillPin(it.lastIndex, it.last().toString())
-
                 } else {
-
                     clearPin(it.lastIndex + 1)
                     pinInterface?.onPinCleared()
                 }
@@ -196,6 +214,10 @@ class PinCodeLayout @JvmOverloads constructor(
 
     init {
         getAttributes()
+        when (pinType) {
+            1 -> inflate(context, R.layout.pin_code_layout, this)
+            else -> inflate(context, R.layout.pin_code_layout_digits, this)
+        }
         inflate(context, R.layout.pin_code_layout, this)
         setupEditText()
         addPins()
@@ -212,8 +234,8 @@ class PinCodeLayout @JvmOverloads constructor(
 
     private fun setupEditText() {
         invisibleTextInput.apply {
-            text?.clear()
             filters = arrayOf(InputFilter.LengthFilter(pinLength), InputFilter.AllCaps())
+            text?.clear()
             addTextChangedListener(textWatcher)
             customSelectionActionModeCallback = actionCallback
             onFocusChangeListener = focusChangeListener
@@ -233,6 +255,7 @@ class PinCodeLayout @JvmOverloads constructor(
     private fun getAttributes() {
 
         pinLength = attributeArray.getInteger(R.styleable.PinCodeLayout_pinLength, defaultPinLength)
+        pinType = attributeArray.getInteger(R.styleable.PinCodeLayout_pinType, pinTypeDefault)
 
         animationDuration =
             attributeArray.getInteger(
@@ -361,12 +384,12 @@ class PinCodeLayout @JvmOverloads constructor(
         invisibleTextInput.background = ContextCompat.getDrawable(context, inputBackgroundId)
     }
 
-    fun setActiveColor(@ColorRes colorId: Int){
-        activeColor = ContextCompat.getColor(context,colorId)
+    fun setActiveColor(@ColorRes colorId: Int) {
+        activeColor = ContextCompat.getColor(context, colorId)
     }
 
-    fun inActiveColor(@ColorRes colorId: Int){
-        inactiveColor = ContextCompat.getColor(context,colorId)
+    fun inActiveColor(@ColorRes colorId: Int) {
+        inactiveColor = ContextCompat.getColor(context, colorId)
     }
 
     fun setHiddenState(hiddenState: Boolean) {
@@ -386,12 +409,13 @@ class PinCodeLayout @JvmOverloads constructor(
         }
     }
 
-    /*fun setPinLength(length: Int) {
-        pinLength = length
-        invisibleTextInput.text?.clearSpans()
-        invisibleTextInput.text?.clear()
-        pinLinearLayout.removeAllViews()
-        addPins()
-    }*/
-
+    private fun isValidInput(char: Char?): Boolean {
+        if (char == null) {
+            return false
+        }
+        return when (pinType) {
+            1 -> TYPE_CAP_LETTERS_AND_DIGITS.contains(char)
+            else -> TYPE_DIGITS.contains(char)
+        }
+    }
 }

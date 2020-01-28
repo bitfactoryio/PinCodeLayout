@@ -30,28 +30,27 @@
 
 <resources>
 
-	<style name="PinStyleText">
-		<item name="android:layout_width">40dp</item>
-		<item name="android:layout_height">40dp</item>
-		<item name="android:textSize">22sp</item>
-		<item name="android:gravity">center</item>
-		<item name="android:layout_gravity">center</item>
-	</style>
+    <style name="PinStyleText">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
-	<style name="PinStyle">
-		<item name="android:background">@drawable/pincode_empty</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:scaleType">centerCrop</item>
-		<item name="android:gravity">center</item>
-		<item name="android:layout_gravity">center</item>
-	</style>
+    <style name="PinStyle">
+        <item name="android:background">@drawable/pincode_empty</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
-	<style name="PinLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-		<item name="android:cursorVisible">false</item>
-		<item name="android:textColor">@android:color/transparent</item>
-		<item name="android:longClickable">false</item>
-		<item name="android:inputType">textPassword</item>
-	</style>
+    <style name="PinLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:cursorVisible">false</item>
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:longClickable">false</item>
+    </style>
 
 </resources>

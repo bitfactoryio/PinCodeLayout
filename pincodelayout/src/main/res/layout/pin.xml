@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
   ~ * ██████╗ ██╗████████╗███████╗ █████╗  ██████╗████████╗ ██████╗ ██████╗ ██╗   ██╗
   ~ * ██╔══██╗██║╚══██╔══╝██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗╚██╗ ██╔╝
@@ -29,17 +28,17 @@
   ~ */
   -->
 
-<ViewSwitcher android:id="@+id/pinSwitcher"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pinSwitcher"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-	<ImageView
-		android:id="@+id/pinIconView"
-		style="@style/PinStyle" />
+    <ImageView
+        android:id="@+id/pinIconView"
+        style="@style/PinStyle" />
 
-	<com.google.android.material.textview.MaterialTextView
-		android:id="@+id/pinTextView"
-		style="@style/PinStyleText" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/pinTextView"
+        style="@style/PinStyleText" />
 
-	</ViewSwitcher>
+</ViewSwitcher>

@@ -40,6 +40,11 @@
 		<attr name="hidePin" format="boolean" />
 		<attr name="activeColor" format="color" />
 		<attr name="inactiveColor" format="color" />
+
+		<attr name="pinType" format="enum">
+			<enum name="digits" value="0" />
+			<enum name="capLettersAndDigits" value="1" />
+		</attr>
 	</declare-styleable>
 	
 </resources>
