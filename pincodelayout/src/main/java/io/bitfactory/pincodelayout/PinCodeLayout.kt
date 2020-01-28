@@ -218,7 +218,6 @@ class PinCodeLayout @JvmOverloads constructor(
             1 -> inflate(context, R.layout.pin_code_layout, this)
             else -> inflate(context, R.layout.pin_code_layout_digits, this)
         }
-        inflate(context, R.layout.pin_code_layout, this)
         setupEditText()
         addPins()
         setUpBottomBar()
