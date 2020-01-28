@@ -6,7 +6,7 @@
   ~ ██████╔╝██║   ██║   ██║     ██║  ██║╚██████╗   ██║   ╚██████╔╝██║  ██║   ██║
   ~ ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝
   ~
-  ~ Copyright (c) 2019 Bitfactory GmbH. All rights reserved.
+  ~ Copyright (c) 2020 Bitfactory GmbH. All rights reserved.
   ~ https://www.bitfactory.io
   ~
   ~ Redistribution and use in source and binary forms, with or without
@@ -28,4 +28,6 @@
 
 <resources>
 	<color name="textColor">#EDF0F2</color>
+	<color name="defaultActiveColor">#00F339</color>
+	<color name="defaultInactiveColor">#FFFFFF</color>
 </resources>

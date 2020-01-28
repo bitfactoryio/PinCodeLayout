@@ -7,7 +7,7 @@
  *  ██████╔╝██║   ██║   ██║     ██║  ██║╚██████╗   ██║   ╚██████╔╝██║  ██║   ██║
  *  ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝
  *
- *  Copyright (c) 2019 Bitfactory GmbH. All rights reserved.
+ *  Copyright (c) 2020 Bitfactory GmbH. All rights reserved.
  *  https://www.bitfactory.io
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@ package io.bitfactory.pincodelayout
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Color
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -74,15 +73,14 @@ class PinCodeLayout @JvmOverloads constructor(
     private var inputBackgroundId = 0
 
     private var pinIsHidden = false
-    private val pinIsHiddenDefault = false
 
     private var pinInterface: PinCodeActions? = null
 
     private var objAnimator: ObjectAnimator? = null
 
-    private var inactiveColor = Color.WHITE
+    private var inactiveColor = 0
 
-    private var activeColor = Color.GREEN
+    private var activeColor = 0
 
     private var attributeArray =
         context.obtainStyledAttributes(attrs, R.styleable.PinCodeLayout, 0, 0)
@@ -248,7 +246,7 @@ class PinCodeLayout @JvmOverloads constructor(
         )
 
         pinIsHidden =
-            attributeArray.getBoolean(R.styleable.PinCodeLayout_hidePin, pinIsHiddenDefault)
+            attributeArray.getBoolean(R.styleable.PinCodeLayout_hidePin, pinIsHidden)
 
         pinBackgroundId =
             attributeArray.getResourceId(
@@ -266,9 +264,21 @@ class PinCodeLayout @JvmOverloads constructor(
             R.drawable.pincode_filled
         )
 
-        activeColor = attributeArray.getResourceId(R.styleable.PinCodeLayout_activeColor,Color.YELLOW)
+        activeColor = ContextCompat.getColor(
+            context,
+            attributeArray.getResourceId(
+                R.styleable.PinCodeLayout_activeColor,
+                R.color.defaultActiveColor
+            )
+        )
 
-        inactiveColor = attributeArray.getResourceId(R.styleable.PinCodeLayout_inactiveColor,Color.RED)
+        inactiveColor = ContextCompat.getColor(
+            context,
+            attributeArray.getResourceId(
+                R.styleable.PinCodeLayout_inactiveColor,
+                R.color.defaultInactiveColor
+            )
+        )
 
         attributeArray.recycle()
     }
@@ -359,9 +369,22 @@ class PinCodeLayout @JvmOverloads constructor(
         inactiveColor = ContextCompat.getColor(context,colorId)
     }
 
-    /*fun setHiddenState(hiddenState : Boolean){
+    fun setHiddenState(hiddenState: Boolean) {
+        pinIsHidden = hiddenState
 
-    }*/
+        for (x in 0 until (invisibleTextInput.text?.length ?: 0)) {
+            val pin: ViewGroup = pinLinearLayout[x] as ViewGroup
+            val currentPin: ViewSwitcher = pin[0] as ViewSwitcher
+            if (pinIsHidden) {
+                currentPin[0].background = ContextCompat.getDrawable(context, filledPinBackgroundId)
+                if (currentPin[1].isShown) currentPin.showPrevious()
+            } else {
+                currentPin[0].background = ContextCompat.getDrawable(context, pinBackgroundId)
+                if (currentPin[0].isShown) currentPin.showNext()
+            }
+
+        }
+    }
 
     /*fun setPinLength(length: Int) {
         pinLength = length

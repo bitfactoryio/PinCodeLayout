@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PinCodeLayout</string>
+    <string name="hideButtonText">Hide/Unhide Pin</string>
 </resources>
