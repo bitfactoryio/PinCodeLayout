@@ -34,9 +34,9 @@
 		<attr name="pinLength" format="integer" />
 		<attr name="pinTextColor" format="color" />
 		<attr name="pinIcon" format="reference" />
+		<attr name="filledPinIcon" format="reference" />
 		<attr name="animationDuration" format="integer" />
-		<attr name="pinBackground" format="reference" />
-		<attr name="filledPinBackground" format="reference" />
+		<attr name="pinInputBackground" format="reference" />
 		<attr name="hidePin" format="boolean" />
 		<attr name="activeColor" format="color" />
 		<attr name="inactiveColor" format="color" />

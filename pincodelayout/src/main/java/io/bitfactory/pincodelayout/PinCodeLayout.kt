@@ -72,8 +72,8 @@ class PinCodeLayout @JvmOverloads constructor(
 
     private var pinTextColor = 0
 
-    private var pinBackgroundId = 0
-    private var filledPinBackgroundId = 0
+    private var pinIcon = 0
+    private var filledPinIcon = 0
     private var inputBackgroundId = 0
 
     private var pinIsHidden = false
@@ -246,7 +246,7 @@ class PinCodeLayout @JvmOverloads constructor(
         for (x in 0 until pinLength) {
             pinLinearLayout.addView(Pin(context).apply {
                 findViewById<View>(R.id.pinIconView).background =
-                    ContextCompat.getDrawable(context, pinBackgroundId)
+                    ContextCompat.getDrawable(context, pinIcon)
             })
         }
     }
@@ -270,19 +270,19 @@ class PinCodeLayout @JvmOverloads constructor(
         pinIsHidden =
             attributeArray.getBoolean(R.styleable.PinCodeLayout_hidePin, pinIsHidden)
 
-        pinBackgroundId =
+        inputBackgroundId = attributeArray.getResourceId(
+            R.styleable.PinCodeLayout_pinInputBackground,
+            R.drawable.pin_background
+        )
+
+        pinIcon =
             attributeArray.getResourceId(
                 R.styleable.PinCodeLayout_pinIcon,
                 R.drawable.pincode_empty
             )
 
-        inputBackgroundId = attributeArray.getResourceId(
-            R.styleable.PinCodeLayout_pinBackground,
-            R.drawable.pin_background
-        )
-
-        filledPinBackgroundId = attributeArray.getResourceId(
-            R.styleable.PinCodeLayout_filledPinBackground,
+        filledPinIcon = attributeArray.getResourceId(
+            R.styleable.PinCodeLayout_filledPinIcon,
             R.drawable.pincode_filled
         )
 
@@ -323,7 +323,7 @@ class PinCodeLayout @JvmOverloads constructor(
             if (!currentPin[1].isShown) currentPin.showNext()
 
         } else {
-            currentPin[0].background = ContextCompat.getDrawable(context, filledPinBackgroundId)
+            currentPin[0].background = ContextCompat.getDrawable(context, filledPinIcon)
         }
 
         endAnimatePin()
@@ -341,7 +341,7 @@ class PinCodeLayout @JvmOverloads constructor(
         if (!pinIsHidden && currentPin[1].isShown) {
             currentPin.showPrevious()
         } else {
-            currentPin[0].background = ContextCompat.getDrawable(context, pinBackgroundId)
+            currentPin[0].background = ContextCompat.getDrawable(context, pinIcon)
         }
         endAnimatePin()
         animatePin(pin)
@@ -370,11 +370,11 @@ class PinCodeLayout @JvmOverloads constructor(
 
     fun setPinResource(@DrawableRes pinResourceId: Int) {
 
-        pinBackgroundId = pinResourceId
+        pinIcon = pinResourceId
 
         for (x in 0 until pinLength) {
             pinLinearLayout[x].findViewById<View>(R.id.pinIconView).background =
-                ContextCompat.getDrawable(context, pinBackgroundId)
+                ContextCompat.getDrawable(context, pinIcon)
         }
     }
 
@@ -398,10 +398,10 @@ class PinCodeLayout @JvmOverloads constructor(
             val pin: ViewGroup = pinLinearLayout[x] as ViewGroup
             val currentPin: ViewSwitcher = pin[0] as ViewSwitcher
             if (pinIsHidden) {
-                currentPin[0].background = ContextCompat.getDrawable(context, filledPinBackgroundId)
+                currentPin[0].background = ContextCompat.getDrawable(context, filledPinIcon)
                 if (currentPin[1].isShown) currentPin.showPrevious()
             } else {
-                currentPin[0].background = ContextCompat.getDrawable(context, pinBackgroundId)
+                currentPin[0].background = ContextCompat.getDrawable(context, pinIcon)
                 if (currentPin[0].isShown) currentPin.showNext()
             }
 
