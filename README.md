@@ -29,6 +29,14 @@ allprojects {
 
 ```
 
+>
+## Preview
+
+<p><img src="static/pin_hidden.gif" width="30%" />
+<img src="static/pin_visible.gif" width="30%" /></p>
+
+## Usage
+
 Add the PinCodeLayout in your xml file:
 
 ``` xml
@@ -39,13 +47,28 @@ Add the PinCodeLayout in your xml file:
 	app:pinLength="6" />
 
 ```
->
-## Preview
 
-<p><img src="static/pin_hidden.gif" width="40%" />
-<img src="screenshots/pin_visible.gif" width="40%" /></p>
+Implement the callback and set it to your pinCodeLayout:
 
-## Usage
+``` kotlin
+	private val callback: PinCodeActions = object : PinCodeActions {
+		override fun onPinEntered(pin: String) {
+			// Called when the pin is fully entered. Returns the pin
+		}
+
+		override fun onPinCleared() {
+			// Called when the pin is cleared/empty
+		}
+
+		override fun onPinFilled() {
+			// Called when the pin is entered and the View looses focus
+		}
+	}
+	...
+	pinCodeLayout.setCallback(callback)
+
+```
+## Customization
 
 ### Changing Pin Length
 You can set your desired pin length in the xml via
@@ -61,7 +84,7 @@ Set up in your xml:
 ```
 or programmatically: 
 
-``` Kotlin
+``` kotlin
 	pinCodeLayout.setActiveBarColor(android.R.color.transparent)
 	pinCodeLayout.setInActiveBarColor(android.R.color.transparent)
 ```
@@ -72,7 +95,7 @@ If you choose, not to show the bottom bar indicator, just set its color to trans
 	app:unfilledPinIcon="@drawable/ic_dot_empty"
 	app:filledPinIcon="@drawable/ic_dot_filled"
 ```
-``` Kotlin
+``` kotlin
 	pinCodeLayout.setUnfilledPinIcon(R.drawable.ic_dot_empty)
 	pinCodeLayout.setFilledPinIcon(R.drawable.ic_dot_filled)
 ```
@@ -83,7 +106,7 @@ If not, the unfilledPinIcon will be visible.
 ``` xml
 	app:hidePin="true"
 ```
-``` Kotlin
+``` kotlin
 	pinCodeLayout.setHiddenState(true)
 ```
 
@@ -93,7 +116,7 @@ By setting a Long value (milliseconds)
 ``` xml
 	app:animationDuration="1000"
 ```
-``` Kotlin
+``` kotlin
 	pinCodeLayout.setAnimationDuration(750L)
 ```
 
@@ -109,7 +132,7 @@ The keyboard will automatically show and accept only valid characters.
 ``` xml
 	app:pinTextColor="@color/black"
 ```
-``` Kotlin
+``` kotlin
 	pinCodeLayout.setPinTextColor(R.color.black)
 ```
 ### Changing Pin Layout Background
