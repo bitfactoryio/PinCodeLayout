@@ -30,4 +30,6 @@
 	<color name="textColor">#EDF0F2</color>
 	<color name="defaultActiveColor">#00F339</color>
 	<color name="defaultInactiveColor">#FFFFFF</color>
+
+	<color name="black">#000000</color>
 </resources>
