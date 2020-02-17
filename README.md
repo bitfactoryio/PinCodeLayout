@@ -1,18 +1,16 @@
 # PinCodeLayout
 
-A customizable AndroidX pincode library for Android API 16+.
-
-Includes animations as well as active and inactive states.
-
+A customizable AndroidX pincode library for Android API 16+ written in kotlin.
+Includes animations as well as active and inactive state indicators.
 
 ## Installation
 
-You can include this library, by adding following code to your build.gradle(app) file:
+You can include this library by adding the following code to your build.gradle (app) file:
 
 ``` Groovy
 
 dependencies {
-	implementation "com.github.bitfactoryio:PinCodeLayout:1.0.2"
+	implementation "com.github.bitfactoryio:PinCodeLayout:1.0.3"
 }
 
 ```
@@ -68,16 +66,49 @@ Implement the callback and set it to your pinCodeLayout:
 	pinCodeLayout.setCallback(callback)
 
 ```
+
+An example project can be found in the **example** folder
 ## Customization
 
 ### Changing Pin Length
-You can set your desired pin length in the xml via
+You can set your desired pin length in the xml via:
 ``` xml
 	app:pinLength="4"
 ```
+### Changing Pin Icon
+``` xml
+	app:unfilledPinIcon="@drawable/ic_dot_empty"
+	app:filledPinIcon="@drawable/ic_dot_filled"
+```
+``` kotlin
+	pinCodeLayout.setUnfilledPinIcon(R.drawable.ic_dot_empty)
+	pinCodeLayout.setFilledPinIcon(R.drawable.ic_dot_filled)
+```
+If your asset is not shown, make sure that the size does not extend the width or height of your pinCodeLayout.
+
+### Hiding pin
+You can choose, wheather you want your users to be able to see their input or not.
+If not, the unfilledPinIcon will be visible.
+
+``` xml
+	app:hidePin="true"
+```
+``` kotlin
+	pinCodeLayout.setHiddenState(true)
+```
+
+### Changing Pin Layout Background
+You can choose your own background. This can be a simple color or a drawable file
+
+``` xml
+	app:inputBackground="@color/colorPrimary"
+```
+``` kotlin
+	pinCodeLayout.setInputBackground(android.R.color.transparent)
+```
 
 ### Changing colors of the bottom Bar indicator:
-Set up in your xml:
+Set up in xml:
 ``` xml
 	app:activeBarColor="@color/white"
 	app:inactiveBarColor="@color/black"
@@ -89,26 +120,6 @@ or programmatically:
 	pinCodeLayout.setInActiveBarColor(android.R.color.transparent)
 ```
 If you choose, not to show the bottom bar indicator, just set its color to transparent.
-
-### Changing Pin Icon
-``` xml
-	app:unfilledPinIcon="@drawable/ic_dot_empty"
-	app:filledPinIcon="@drawable/ic_dot_filled"
-```
-``` kotlin
-	pinCodeLayout.setUnfilledPinIcon(R.drawable.ic_dot_empty)
-	pinCodeLayout.setFilledPinIcon(R.drawable.ic_dot_filled)
-```
-### Hiding pin
-You can choose, if you want your users to be able to see their input, or not.
-If not, the unfilledPinIcon will be visible.
-
-``` xml
-	app:hidePin="true"
-```
-``` kotlin
-	pinCodeLayout.setHiddenState(true)
-```
 
 ### Changing Animation duration
 By setting a Long value (milliseconds)
@@ -135,13 +146,3 @@ The keyboard will automatically show and accept only valid characters.
 ``` kotlin
 	pinCodeLayout.setPinTextColor(R.color.black)
 ```
-### Changing Pin Layout Background
-You can choose your own background. This can be a simple color or a drawable file
-
-``` xml
-	app:inputBackground="@color/colorPrimary"
-```
-``` kotlin
-	pinCodeLayout.setInputBackground(android.R.color.transparent)
-```
-
